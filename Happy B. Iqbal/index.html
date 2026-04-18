@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday Sayang! 💙</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Quicksand:wght@500;700&display=swap');
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #e0f7fa 0%, #ffffff 100%);
+            font-family: 'Quicksand', sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            color: #333;
+        }
+
+        #card-container {
+            width: 90%;
+            max-width: 400px;
+            height: 85vh;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(129, 212, 250, 0.5);
+            position: relative;
+            overflow: hidden;
+            border: 3px solid #81d4fa;
+        }
+
+        .page {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            padding: 30px 20px;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+            transform: translateX(100%);
+            pointer-events: none;
+        }
+
+        .page.active {
+            opacity: 1;
+            transform: translateX(0);
+            pointer-events: all;
+        }
+
+        .page.prev {
+            transform: translateX(-100%);
+        }
+
+        h1 {
+            font-family: 'Fredoka One', cursive;
+            color: #29b6f6;
+            font-size: 28px;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        p {
+            font-size: 16px;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        .cute-font {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        img.gif-beruang {
+            width: 150px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+        }
+
+        /* Halaman 3 - 5 Alasan */
+        .alasan-list {
+            text-align: left;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+        .alasan-list div {
+            background: #e1f5fe;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-radius: 10px;
+            border-left: 4px solid #29b6f6;
+        }
+
+        /* Halaman 4 - Foto */
+        .photo-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+        }
+        .photo-grid div {
+            width: 80px;
+            height: 80px;
+            background: #b3e5fc;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 10px;
+            color: #0288d1;
+            border: 2px dashed #0288d1;
+            overflow: hidden;
+        }
+        .photo-grid img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Navigasi */
+        .nav-buttons {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            display: flex;
+            justify-content: space-evenly;
+            z-index: 10;
+        }
+
+        button {
+            background: #29b6f6;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 20px;
+            font-family: 'Fredoka One', cursive;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(41, 182, 246, 0.4);
+            transition: 0.3s;
+        }
+
+        button:hover {
+            background: #0288d1;
+            transform: translateY(-2px);
+        }
+
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            box-shadow: none;
+            transform: none;
+        }
+
+        /* Animasi Interaktif (Halaman 5, 6, 7) */
+        .interactive-box {
+            background: #b3e5fc;
+            padding: 15px;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-top: 20px;
+            border: 2px solid #29b6f6;
+        }
+        .interactive-box:hover {
+            background: #81d4fa;
+        }
+
+        .pulsing-heart {
+            font-size: 60px;
+            cursor: pointer;
+            animation: pulse 1s infinite;
+            margin: 20px 0;
+            display: inline-block;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        #hidden-message {
+            display: none;
+            background: #e1f5fe;
+            padding: 15px;
+            border-radius: 10px;
+            color: #0288d1;
+            margin-top: 15px;
+            font-weight: bold;
+        }
+
+        /* Efek Partikel & Hati Jatuh */
+        .particle, .falling-heart {
+            position: absolute;
+            pointer-events: none;
+            z-index: 100;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100px) scale(0); opacity: 0; }
+        }
+
+        @keyframes fallDown {
+            0% { transform: translateY(-10vh) scale(1); opacity: 1; }
+            100% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+
+    <div id="card-container">
+        <div class="page active" id="page1">
+            <h1>SELAMAT ULANG TAHUN KESAYANGANKU <3</h1>
+            <p class="cute-font">Selamat ulang tahun sayanggg, Senang bangett aku bisa Rayain ulang tahun kamuu kali iniii...Senanggg bangettt kamu udahhh 17 tahun sekarang. Meskipun begitu, Kamu tetap anak kecill dimata akuu hihiiikk Yeeaayyy Happy birthday Sayangkuu..</p>
+        </div>
+
+        <div class="page" id="page2">
+            <img src="https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZjFremdrcGFqNzd6ZzlhMmQ1YjVlaHNpdzU5OTd5bXhxbmdhMGpqbCZlcD12MV9naWZzX3JlbGF0ZWQmY3Q9Zw/IzXiddo2twMmdmU8Lv/giphy.gif" alt="Beruang Lucu" class="gif-beruang">
+            <p class="cute-font" style="font-size: 13px;">Harapan ku semoga ayang jadi Anak yang berbakti Pada orang tuaa, taat agamanyaaa, Semogaaa ayang jugaa menemukan banyak kebahagiaan Di Tahun ayangg iniii...Aku selaluu mendoakan yang terbaikk buat ayangg hihii, Jangan Nakal jangan Bosan sama hidupp okeyyyy? Ayanggg kann punyaaaa Akuu, ceritaa ajaa kapanpunn apapun masalah kamuu..Kaylaaa kamu disinii (*>∀<*)/ hheeehee.</p>
+        </div>
+
+        <div class="page" id="page3">
+            <h1>5 Alasan kenapa Ulang tahun ini Spesial</h1>
+            <div class="alasan-list">
+                <div>1. Kamu selalu ada dan jadi pendengar yang sabar buat semua ceritaku 🥺💙</div>
+                <div>2. Hari ini dunia merayakan 17 tahun adanya manusia paling spesial! 🌍✨</div>
+                <div>3. Karena aku seneng banget kamu selalu terbuka dan mau cerita banyak hal sama aku 🥰🦋</div>
+                <div>4. Setiap detik waktu yang kita habiskan bareng itu sangat berharga buatku 🕰️💞</div>
+                <div>5. Ini awal kedewasaan kamu, dan aku janji bakal terus nemenin langkah kamu! 🎂🥳</div>
+            </div>
+        </div>
+
+        <div class="page" id="page4">
+            <h1>Us with You o(≧∀≦)o 📸</h1>
+            <p class="cute-font">Hihii Lucu semuaa!</p>
+            <div class="photo-grid">
+                <div><img src="foto1.jpeg" alt="Foto 1" onerror="this.style.display='none'; this.parentNode.innerHTML='Foto 1'"></div>
+                <div><img src="foto2.jpeg" alt="Foto 2" onerror="this.style.display='none'; this.parentNode.innerHTML='Foto 2'"></div>
+                <div><img src="foto3.jpeg" alt="Foto 3" onerror="this.style.display='none'; this.parentNode.innerHTML='Foto 3'"></div>
+                <div><img src="foto4.jpeg" alt="Foto 4" onerror="this.style.display='none'; this.parentNode.innerHTML='Foto 4'"></div>
+                <div><img src="foto5.jpeg" alt="Foto 5" onerror="this.style.display='none'; this.parentNode.innerHTML='Foto 5'"></div>
+            </div>
+        </div>
+
+        <div class="page" id="page5">
+            <h1>Ada Hadiah Nih! 🎁</h1>
+            <p>Ayang, coba pilih dan klik kotak biru di bawah ini yaaa...</p>
+            <div class="interactive-box" onclick="bukaKado(this)">
+                Bukaa IHHHHH 💌
+            </div>
+            <p id="kado-text" style="display:none; margin-top: 15px; color: #0288d1; font-weight: bold;">
+                Surprise!! Hadiahnya adalah... Doa yang gak pernah putus dan peluk cium dari jauh buat ayang! hihii 💙✨
+            </p>
+        </div>
+
+        <div class="page" id="page6">
+            <h1>Pencet!! 💙</h1>
+            <p>Coba ayang tap hati yang lagi berdetak di bawah ini...</p>
+            <div class="pulsing-heart" onclick="pecahkanHati(this)">💙</div>
+            <div id="hidden-message">
+                Makasi udah jadi pasangan akuu.. Makasi udah ngertiin aku bangettttt. Aku sayang banget sama Iqbalkuuu hihihiii! 🥰
+            </div>
+        </div>
+
+        <div class="page" id="page7">
+            <h1>Peluk Jauh! 🫂🤍</h1>
+            <p>Aku Selalu Sayanggg sama kamu! Gimana pun Kamu tetapp Yang terbaik buatt akuuu, maaf aku ga bisa kasih yang spesiall Kayak orang orangg..Akuu Usahainn BakalJadi yang terbaik dan bakal jadi orang baik untuk kamuuu!! jangan pernah berubah ya Kesayangankuu <3. Selamat Ulang Tahun ^^ "Peluk Hangat -Ell"</p>
+            <button onclick="hujanHati()" style="margin-top: 20px; font-size: 18px; padding: 15px 30px;">
+                Kirim Pelukan! 💖
+            </button>
+        </div>
+
+        <div class="nav-buttons">
+            <button id="btnPrev" onclick="changePage(-1)" disabled>Kembali</button>
+            <button id="btnNext" onclick="changePage(1)">Lanjut</button>
+        </div>
+    </div>
+
+    <script>
+        let currentPage = 1;
+        const totalPages = 7;
+
+        function changePage(direction) {
+            const currentEl = document.getElementById(`page${currentPage}`);
+            currentEl.classList.remove('active');
+            
+            if(direction === 1) {
+                currentEl.classList.add('prev');
+            } else {
+                currentEl.classList.remove('prev');
+            }
+
+            currentPage += direction;
+            
+            const nextEl = document.getElementById(`page${currentPage}`);
+            nextEl.classList.remove('prev');
+            nextEl.classList.add('active');
+
+            // Atur status tombol
+            document.getElementById('btnPrev').disabled = currentPage === 1;
+            document.getElementById('btnNext').style.display = currentPage === totalPages ? 'none' : 'block';
+        }
+
+        // Fungsi Interaktif Halaman 5
+        function bukaKado(element) {
+            element.style.display = 'none';
+            document.getElementById('kado-text').style.display = 'block';
+            munculkanPartikel(element, '✨');
+        }
+
+        // Fungsi Interaktif Halaman 6
+        function pecahkanHati(element) {
+            element.style.animation = 'none'; // Hentikan denyut nadi
+            element.style.transform = 'scale(1.5)';
+            element.style.opacity = '0.5';
+            document.getElementById('hidden-message').style.display = 'block';
+            
+            // Efek partikel mengambang
+            for(let i=0; i<10; i++) {
+                setTimeout(() => munculkanPartikel(element, '💙'), i * 100);
+            }
+        }
+
+        // Fungsi Interaktif Halaman 7
+        function hujanHati() {
+            // Efek hati berjatuhan
+            for(let i=0; i<30; i++) {
+                setTimeout(buatHatiJatuh, i * 150);
+            }
+        }
+
+        function munculkanPartikel(element, emoji) {
+            const rect = element.getBoundingClientRect();
+            const partikel = document.createElement('div');
+            partikel.innerHTML = emoji;
+            partikel.className = 'particle';
+            
+            // Posisi acak di sekitar elemen yang diklik
+            const x = rect.left + (Math.random() * rect.width);
+            const y = rect.top + (Math.random() * rect.height);
+            
+            partikel.style.left = `${x}px`;
+            partikel.style.top = `${y}px`;
+            partikel.style.animation = `floatUp 1s ease-out forwards`;
+            
+            document.body.appendChild(partikel);
+            
+            setTimeout(() => {
+                partikel.remove();
+            }, 1000);
+        }
+
+        function buatHatiJatuh() {
+            const hati = document.createElement('div');
+            hati.innerHTML = ['💙', '🤍', '✨', '💫', '💖', '💝'][Math.floor(Math.random() * 6)];
+            hati.className = 'falling-heart';
+            
+            // Posisi X acak dari 0 hingga lebar layar
+            hati.style.left = Math.random() * 100 + 'vw';
+            hati.style.fontSize = (Math.random() * 30 + 10) + 'px';
+            hati.style.animation = `fallDown ${Math.random() * 4 + 2}s linear forwards`;
+            
+            document.body.appendChild(hati);
+            
+            setTimeout(() => {
+                hati.remove();
+            }, 4000);
+        }
+    </script>
+</body>
+</html>
